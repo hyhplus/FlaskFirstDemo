@@ -26,7 +26,7 @@ def about():
     return 'The about page'
 
 
-# 模板渲染例子
+# 模板渲染例子，带参数的路由
 @app.route('/hello/')
 @app.route('/hello/<name>')
 def hello(name=None):
@@ -34,4 +34,5 @@ def hello(name=None):
 
 
 if __name__ == '__main__':
-    app.run()
+    # app.debug = True
+    app.run(host='0.0.0.0',  debug=False)
