@@ -1,9 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, Markup
 
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/hello_world')
 def hello_world():
     return 'Hello World!'
 
@@ -33,6 +33,25 @@ def hello(name=None):
     return render_template('hello.html', name=name)
 
 
+# HTTP 请求方法设置
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        print(request.date)
+        return 'This is a POST request'
+
+    else:
+        return 'This is a GET request'
+
+
+# HTTP 自动转义
+# 但有时我们并不想让这些HTML标签自动转义，特别是传递表单参数时，很容易导致HTML注入的漏洞
+# 我们把下面的代码改下，引入”Markup”类
+@app.route('/')
+def index():
+    # return '<div>Hello %s</div>' % '<em>Flask</em>'
+    return Markup('<div>Hello %s</div>') % '<em>Flask</em>'
+
+
 if __name__ == '__main__':
-    # app.debug = True
-    app.run(host='0.0.0.0',  debug=False)
+    app.run(host='0.0.0.0',  debug=True)
